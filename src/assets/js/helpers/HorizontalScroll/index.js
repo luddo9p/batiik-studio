@@ -99,7 +99,15 @@ class HorizontalScroll {
 		const normalizedEvent = normalizeWheel(e);
     let movement = ((-normalizedEvent.pixelX + -normalizedEvent.pixelY) * 0.5) * 8;
     movement = mapRange(movement, -100, 100, -40, 40);
-    this.tX += movement;
+
+    // Apply movement and clamp immediately to prevent elastic effect
+    const newTX = this.tX + movement;
+    const minX = this.startX - this.endX;
+    if (this.canOverlap === false) {
+      this.tX = Math.max(minX, Math.min(this.startX, newTX));
+    } else {
+      this.tX = newTX;
+    }
   }
 
   handleTouchStart(e) {
@@ -108,7 +116,16 @@ class HorizontalScroll {
 
   handleTouchMove(e) {
     const movement = (e.touches[0].screenX - this.lastTouch);
-    this.tX += movement * 4;
+
+    // Apply movement and clamp immediately to prevent elastic effect
+    const newTX = this.tX + movement * 4;
+    const minX = this.startX - this.endX;
+    if (this.canOverlap === false) {
+      this.tX = Math.max(minX, Math.min(this.startX, newTX));
+    } else {
+      this.tX = newTX;
+    }
+
     this.lastTouch = e.touches[0].screenX;
   }
 
@@ -118,7 +135,9 @@ class HorizontalScroll {
 
   animate() {
     requestAnimationFrame(this.animate);
-    this.cX = lerp(this.cX, this.tX, 0.1);
+    // Increase lerp speed when bouncing back from limits (0.1 -> 0.15)
+    const lerpSpeed = 0.15;
+    this.cX = lerp(this.cX, this.tX, lerpSpeed);
     // Upper bound: don't go beyond startX (to the right)
     if (this.tX > this.startX && this.canOverlap === false) this.tX = this.startX;
     // Lower bound: calculate actual scroll limit considering we start at startX
