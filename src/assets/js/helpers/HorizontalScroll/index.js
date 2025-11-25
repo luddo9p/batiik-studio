@@ -48,9 +48,10 @@ class HorizontalScroll {
     this.handleResize();
 
     // Check if there's enough content to scroll (accounting for startX offset)
-    if (this.totalWidth + this.startX < window.innerWidth) {
+    // If endX <= 0, there's not enough content to scroll
+    if (this.endX <= 0) {
       // Not enough content for scroll, just position the wrapper to avoid overlap with titles
-      this.tX = 0;
+      this.tX = this.startX;
       this.cX = this.tX;
       this.$.wrapper.style.transform = `translate3d(${this.cX}px, 0, 0)`;
       return;
@@ -152,8 +153,10 @@ class HorizontalScroll {
     this.itemWidth = this.$.columns[0].offsetWidth;
     this.itemMargin = window.innerWidth * ITEM_MARGIN_PERCENT;
     this.totalWidth = this.$.wrapper.offsetWidth + this.itemMargin;
-    this.endX = this.totalWidth - window.innerWidth + EXTRA_MARGIN;
 		this.startX = this.itemMargin + this.titlesWidth;
+    // endX should account for the fact that content starts at startX position
+    // Total scrollable distance = (startX + totalWidth) - window.innerWidth
+    this.endX = this.startX + this.totalWidth - window.innerWidth + EXTRA_MARGIN;
     if (this.endX > window.innerWidth) {
 			this.backCtaVisibilityThreshold = this.endX - window.innerWidth * 0.2;
 			this.ctaVisibilityThreshold = window.innerWidth * 0.2 - this.titlesWidth;
