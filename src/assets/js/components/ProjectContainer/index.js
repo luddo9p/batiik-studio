@@ -4,6 +4,7 @@ import normalizeWheel from '../../vendors/normalizeWheel';
 
 class ProjectContainer {
   constructor(container) {
+    console.log('ProjectContainer constructor called');
     this.container = container
     this.$ = {
       wrapper: this.container.querySelector('.project-container__wrapper'),
@@ -12,6 +13,11 @@ class ProjectContainer {
       toHide: this.container.querySelectorAll('.project-container .js-to-hide'),
       copyright: document.querySelector('.copyright')
     }
+    console.log('ProjectContainer elements:', {
+      wrapper: this.$.wrapper,
+      columnsCount: this.$.columns.length,
+      imagesCount: this.$.images.length
+    });
     this.copyrightTimeout = setTimeout(() => this.$.copyright = document.querySelector('.copyright'), 1000);
     this.textsVisible = true;
     this.lastTouch = 0;
@@ -75,19 +81,23 @@ class ProjectContainer {
   }
 
   handleScroll(e) {
+    e.preventDefault();
+
 		// let movement = e.wheelDelta ? e.wheelDelta : -e.deltaY;
 		const normalizedEvent = normalizeWheel(e);
 
-    // Bloquer tout scroll horizontal
-    if (Math.abs(normalizedEvent.pixelX) > 0) {
-      e.preventDefault();
-      return;
-    }
-
-    e.preventDefault();
-    let movement = (-normalizedEvent.pixelY) * 8;
+    // Use vertical scroll to control horizontal movement
+    let movement = ((-normalizedEvent.pixelX + -normalizedEvent.pixelY) * 0.5) * 8;
     movement = mapRange(movement, -100, 100, -40, 40);
-    this.tX += movement;
+
+    // Apply movement and clamp to prevent going beyond limits
+    const newTX = this.tX + movement;
+    if (this.canOverlap === false) {
+      // Clamp between startX (right limit) and -endX (left limit)
+      this.tX = Math.max(-this.endX, Math.min(this.startX, newTX));
+    } else {
+      this.tX = newTX;
+    }
   }
 
   handleTouchStart(e) {
@@ -146,11 +156,21 @@ class ProjectContainer {
     this.copyVisibilityThreshold = this.endX - window.innerWidth * 0.2;
     if (window.innerWidth > 737) this.canAnimate = true;
     else this.canAnimate = false;
+
+    console.log('ProjectContainer handleResize:', {
+      totalWidth: this.totalWidth,
+      endX: this.endX,
+      startX: this.startX,
+      windowWidth: window.innerWidth,
+      scrollRange: `${this.startX} to ${-this.endX}`
+    });
   }
 
   onDestroy() {
+    console.log('ProjectContainer onDestroy called');
     // Retirer tous les event listeners pour éviter qu'ils persistent après la navigation
-    window.removeEventListener('wheel', this.handleScroll);
+    // Must match the options used when adding the listeners
+    window.removeEventListener('wheel', this.handleScroll, { passive: false });
     window.removeEventListener('touchstart', this.handleTouchStart);
     window.removeEventListener('touchmove', this.handleTouchMove);
     window.removeEventListener('resize', this.handleResize);

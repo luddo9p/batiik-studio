@@ -79,10 +79,10 @@ class HorizontalScroll {
       tX: this.tX,
     });
 
-    // Events
-    window.addEventListener('wheel', this.handleScroll);
-    window.addEventListener('touchstart', this.handleTouchStart);
-    window.addEventListener('touchmove', this.handleTouchMove);
+    // Events - use passive: false to allow preventDefault
+    window.addEventListener('wheel', this.handleScroll, { passive: false });
+    window.addEventListener('touchstart', this.handleTouchStart, { passive: false });
+    window.addEventListener('touchmove', this.handleTouchMove, { passive: false });
     window.addEventListener('resize', this.handleResize);
     this.$.backCta.addEventListener('click', this.handleBack);
     this.animate();
@@ -95,6 +95,9 @@ class HorizontalScroll {
   }
 
   handleScroll(e) {
+    // Prevent default scroll behavior only on projects page
+    e.preventDefault();
+
 		// let movement = e.wheelDelta ? e.wheelDelta : -e.deltaY;
 		const normalizedEvent = normalizeWheel(e);
     let movement = ((-normalizedEvent.pixelX + -normalizedEvent.pixelY) * 0.5) * 8;
@@ -134,7 +137,7 @@ class HorizontalScroll {
   }
 
   animate() {
-    requestAnimationFrame(this.animate);
+    this.animationFrameId = requestAnimationFrame(this.animate);
     // Increase lerp speed when bouncing back from limits (0.1 -> 0.15)
     const lerpSpeed = 0.15;
     this.cX = lerp(this.cX, this.tX, lerpSpeed);
@@ -184,6 +187,23 @@ class HorizontalScroll {
 			this.backCtaVisibilityThreshold = null;
 			this.ctaVisibilityThreshold = null;
 		}
+  }
+
+  onDestroy() {
+    console.log('HorizontalScroll onDestroy called');
+    // Remove all event listeners to prevent scroll blocking on other pages
+    // Must match the options used when adding the listeners
+    window.removeEventListener('wheel', this.handleScroll, { passive: false });
+    window.removeEventListener('touchstart', this.handleTouchStart, { passive: false });
+    window.removeEventListener('touchmove', this.handleTouchMove, { passive: false });
+    window.removeEventListener('resize', this.handleResize);
+    if (this.$.backCta) {
+      this.$.backCta.removeEventListener('click', this.handleBack);
+    }
+    // Cancel animation frame
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+    }
   }
 }
 

@@ -2,9 +2,9 @@
 
 // Include resources
 function resources() {
-	wp_enqueue_style( 'style', get_stylesheet_uri(), array(), 5.0, 'all' );
+	wp_enqueue_style( 'style', get_stylesheet_uri(), array(), 6.0, 'all' );
 	wp_enqueue_script( 'header_js', get_template_directory_uri() . '/js/header-bundle.js', null, 1.0, true );
-	wp_enqueue_script( 'footer_js', get_template_directory_uri() . '/js/app.js', null, 5.0, true );
+	wp_enqueue_script( 'footer_js', get_template_directory_uri() . '/js/app.js', null, 6.0, true );
 }
 
 add_action( 'wp_enqueue_scripts', 'resources' );
