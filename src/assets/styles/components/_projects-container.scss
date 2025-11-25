@@ -12,9 +12,7 @@ $navHeight: 60px;
   &__titles {
     margin-left: 2vw;
 		position: fixed;
-		top: calc(#{$navHeight} + 4vh);
-		left: 2vw;
-		z-index: 10;
+		z-index: 100;
 		-webkit-perspective: 1000;
 		-webkit-backface-visibility: hidden;
     &-item > a {
@@ -37,6 +35,11 @@ $navHeight: 60px;
         transform: translateY(0) scale3d(1, 1, 1);
       }
     }
+  }
+
+  &__wrapper {
+    position: relative;
+    z-index: 1;
   }
 
   &__column {

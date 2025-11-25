@@ -47,12 +47,36 @@ class HorizontalScroll {
 
     this.handleResize();
 
-    if (this.totalWidth < window.innerWidth * 1.1) return;
-    
+    // Check if there's enough content to scroll (accounting for startX offset)
+    if (this.totalWidth + this.startX < window.innerWidth) {
+      // Not enough content for scroll, just position the wrapper to avoid overlap with titles
+      this.tX = 0;
+      this.cX = this.tX;
+      this.$.wrapper.style.transform = `translate3d(${this.cX}px, 0, 0)`;
+      return;
+    }
+
 		this.canOverlap = true;
 		this.canShowCta = false;
-    this.tX = this.startX + window.innerWidth * 0.85;
+    // Calculate initial position: use smaller offset when content is tight
+    const hasMinimalScroll = this.endX < window.innerWidth * 0.5;
+    // Always use startX to leave space for the menu (210px)
+    // But reduce the initial animation offset when there's minimal scroll
+    const initialOffset = hasMinimalScroll ? 0 : window.innerWidth * 0.85;
+    this.tX = this.startX + initialOffset;
     this.cX = this.tX;
+
+    // Store flag for minimal scroll mode
+    this.hasMinimalScroll = hasMinimalScroll;
+
+    console.log('HorizontalScroll initialized', {
+      totalWidth: this.totalWidth,
+      endX: this.endX,
+      startX: this.startX,
+      hasMinimalScroll,
+      initialOffset,
+      tX: this.tX,
+    });
 
     // Events
     window.addEventListener('wheel', this.handleScroll);
@@ -94,8 +118,12 @@ class HorizontalScroll {
   animate() {
     requestAnimationFrame(this.animate);
     this.cX = lerp(this.cX, this.tX, 0.1);
+    // Upper bound: don't go beyond startX (to the right)
     if (this.tX > this.startX && this.canOverlap === false) this.tX = this.startX;
-    else if (Math.abs(this.tX) > this.endX && this.canOverlap === false) this.tX = -this.endX;
+    // Lower bound: calculate actual scroll limit considering we start at startX
+    // When we scroll left (negative), we can go from startX to (startX - endX)
+    const minX = this.startX - this.endX;
+    if (this.tX < minX && this.canOverlap === false) this.tX = minX;
     this.$.wrapper.style.transform = `translate3d(${this.cX}px, 0, 0)`;
     if (this.backCtaVisibilityThreshold) {
       let opacitybackCta = mapRange(this.cX, -this.backCtaVisibilityThreshold, -this.endX, 0, 1);
