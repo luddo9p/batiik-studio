@@ -1,0 +1,19 @@
+.scroll-cta {
+  position: fixed;
+  right: 0;
+  bottom: 10vh;
+  font-size: 12px;
+  font-weight: 300;
+  width: 130px;
+	user-select: none;
+	opacity: 0;
+  &:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 5px;
+    width: 70%;
+    height: 1px;
+    background-color: #000;
+  }
+}

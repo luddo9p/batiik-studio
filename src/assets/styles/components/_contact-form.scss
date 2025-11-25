@@ -1,0 +1,256 @@
+.contact-container {
+  padding-bottom: 50px;
+}
+
+.contact-form {
+  width: $aboutRightWidth;
+  margin-right: calc(2vw + 40px);
+  margin-left: auto;
+  margin-top: 30vh;
+
+  @media (max-width: 1024px) {
+    width: 90%;
+    margin: 160px auto 100px;
+  }
+
+  &__gradient {
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 60px;
+    background: #fff;
+  }
+
+  &__title {
+    font-size: 16px;
+    line-height: 1.2;
+    font-family: $font-title;
+    margin-bottom: 15px;
+    @media (min-width: 2000px) {
+      font-size: 30px;
+    }
+  }
+
+  &__desc {
+    font-size: 14px;
+    line-height: 1.3;
+    margin-bottom: 50px;
+    @media (min-width: 2000px) {
+      font-size: 24px;
+    }
+  }
+
+  &__form {
+    font-size: 14px;
+    margin-bottom: 300px;
+    transform: translateY(20%) scale3d(1, 1.3, 1);
+    @media (max-width: 812px) {
+      margin-bottom: 100px;
+    }
+
+    .contact__wrapper {
+      display: flex;
+      justify-content: space-between;
+      @media (max-width: 812px) {
+        display: block;
+      }
+    }
+
+    .contact__left,
+    .contact__right {
+      width: 49%;
+      @media (max-width: 812px) {
+        width: 100%;
+      }
+    }
+
+    .contact__left {
+      width: calc(49% - 20px);
+      @media (min-width: 768px) {
+       overflow: hidden;
+      }
+      
+    }
+
+    .contact__field {
+      margin-bottom: 20px;
+      display: flex;
+
+      p {
+        display: flex;
+      }
+      @media (max-width: 812px) {
+        > span {
+          width: 60%;
+          > input,
+          > textarea {
+            width: 100%;
+          }
+        }
+      }
+
+      &--description {
+        display: flex;
+        label {
+          margin-bottom: 10px;
+        }
+        textarea {
+          resize: none;
+          border-bottom: solid thin #878787;
+          border-top: solid thin #878787;
+          height: 163px;
+          margin-top: 17px;
+          line-height: 1.2;
+          // background: #000;
+        }
+      }
+
+      &--radio {
+        label {
+          line-height: 1.5;
+          cursor: pointer;
+
+          @media (min-width: 2000px) {
+            font-size: 26px;
+          }
+        }
+        span.wpcf7-list-item {
+          margin-left: 0;
+              font-family: "cabinetgrotesk-regular";
+          label {
+            font-size: 12px;
+                font-family: "cabinetgrotesk-regular";
+          }
+        }
+      }
+
+      &--button {
+        cursor: pointer;
+        margin-top: 50px;
+        margin-left: 51%;
+        height: 40px;
+        > input {
+          font-size: 24px;
+          font-family: $font-title;
+          cursor: pointer;
+          color: inherit;
+        }
+        > span.ajax-loader {
+          display: none;
+          background-repeat: no-repeat;
+          &.is-active {
+            display: block;
+          }
+        }
+        @media (max-width: 812px) {
+          margin-top: 100px;
+          margin-left: auto;
+          display: flex;
+        }
+      }
+    }
+
+    .contact__field label {
+      width: 130px;
+      min-width: 130px;
+      margin-right: 30px;
+      margin-top: 2px;
+      line-height: 1;
+      font-size: 16px;
+      font-family: $font-title;
+      // &:after {
+      //   content: "*";
+      //   color: #e995a1;
+      // }
+      @media (max-width: 812px) {
+        margin-right: 0;
+      }
+      @media (min-width: 2000px) {
+        line-height: 1.5;
+        font-size: 26px;
+      }
+    }
+
+    .contact__field > span > input {
+      @media (min-width: 2000px) {
+        line-height: 1.5;
+        font-size: 26px;
+      }
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"] {
+      border-bottom: solid thin #878787;
+    }
+
+    input[type="submit"] {
+      font-size: 24px;
+      font-family: "Canela";
+    }
+
+    input[type="radio"] {
+      position: relative;
+      margin-right: 10px;
+      @media (min-width: 2000px) {
+        width: 24px;
+        height: 24px;
+        margin-right: 30px;
+      }
+      &:before {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border: solid thin #000;
+        border-radius: 20px;
+        content: "";
+        cursor: pointer;
+        @media (min-width: 2000px) {
+          width: 24px;
+          height: 24px;
+        }
+      }
+      &:checked:before {
+        background: #000;
+      }
+    }
+
+    .wpcf7-form-control-wrap.cf-selection > .wpcf7-form-control.wpcf7-radio {
+      display: flex;
+      flex-direction: column;
+      font-family: $font-body;
+    }
+
+    .wpcf7-response-output {
+      border: none;
+      padding: 0;
+      margin-left: 0;
+      font-size: 14px;
+      line-height: 1.4;
+      color: #000;
+      margin-left: 51%;
+      @media (max-width: 812px) {
+        margin-left: 0;
+      }
+    }
+
+    .wpcf7-form-control,
+    ._ffn_textNode {
+      font-family: $font-body;
+      font-size: 16px;
+      display: flex;
+      flex-direction: column;
+       @media (max-width: 812px) {
+         max-width: 220px;
+      }
+    }
+  }
+}
+
+.contact-form__recaptcha-infos {
+  a {
+    text-decoration: underline;
+  }
+}

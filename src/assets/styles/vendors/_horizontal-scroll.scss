@@ -1,0 +1,41 @@
+.js-horizontal-scroll {
+
+  &__wrapper {
+    display: inline-flex;
+    height: 100%;
+    transform: translate3d(2vw, 0px, 0px);
+    background-color: #fff;
+  }
+  
+  &__column {
+    width: 48vh;
+    height: 100%;
+    margin-right: 2vw;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  
+  &__column-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__image-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    &:nth-child(2) {
+      margin-top: 2vw;
+    }
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    will-change: transform;
+    transform-origin: left;
+  }
+}

@@ -1,0 +1,70 @@
+/*
+Theme Name: Batiik Studio
+Version: 1.0
+*/
+
+// Reset
+@import './vendors/reset';
+
+// Mixins
+@import './mixins/breakpoints';
+
+// Base
+@import './base/fonts';
+@import './base/variables';
+@import './base/global';
+@import './base/typography';
+@import './base/helpers';
+
+// Vendors
+@import './vendors/horizontal-scroll';
+@import './vendors/hover-image';
+@import './vendors/lazy-load';
+@import './vendors/appear';
+
+// Components
+@import './components/nav';
+@import './components/home-container';
+@import './components/projects-container';
+@import './components/objects-container';
+@import './components/projects-objects-mobile';
+@import './components/project-container';
+@import './components/project-container-mobile';
+@import './components/object-container';
+@import './components/object-container-mobile';
+@import './components/about-left';
+@import './components/about-right';
+@import './components/contact-form';
+@import './components/copyright';
+@import './components/back-cta';
+@import './components/scroll-cta';
+@import './components/loader';
+@import './components/burger';
+@import './components/legals';
+
+
+#tarteaucitronAlertBig #tarteaucitronDisclaimerAlert{
+    color: black !important;
+        font-family: "cabinetgrotesk-regular" !important;
+        font-size: 14px !important;
+}
+
+#tarteaucitronPersonalize {
+    background-color : black !important;
+}
+
+.scroll-cta {
+    display: none !important;
+}
+
+.page-template-t-about .about-left {
+    display: none !important;
+}
+
+.about-container, .contact-container {
+    margin-top: -70px
+}
+
+.contact-container .about-left {
+    margin-top: -70px;
+}

@@ -1,0 +1,1 @@
+export const BP_MOBILE = 1024;

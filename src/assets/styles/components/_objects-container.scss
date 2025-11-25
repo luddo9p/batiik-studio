@@ -1,0 +1,50 @@
+$navHeight: 60px;
+
+.objects-container {
+  height: calc(96vh - #{$navHeight});
+  margin-top: $navHeight;
+  overflow: hidden;
+  display: block;
+  @media (max-width: 737px) {
+    display: none;
+  }
+
+  &__column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__column-images {
+    height: 80%;
+  }
+
+  &__column-texts {
+    height: 18%;
+  }
+
+  &__img-container {
+    position: relative;
+  }
+
+  &__img {
+    position: absolute;
+    &.hover-img.lazy:not(.js-to-appear).loaded {
+			opacity: 0;
+			&.js-hover-image__image {
+				transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
+			}
+    }
+    &:hover {
+      opacity: 0;
+      &.hover-img.lazy:not(.js-to-appear).loaded {
+				@media (min-width: 1025px) {
+					opacity: 1;
+				}
+				&.js-hover-image__image.js-hover-image__image--active {
+					transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
+				}
+      }
+    }
+  }
+}

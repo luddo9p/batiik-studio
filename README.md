@@ -1,0 +1,22 @@
+# batiik-studio
+
+## Prerequisites
+* Your local server (MAMP, ...) needs to have `build/wordpress` as document root
+* If you don't have `localhost` as local web address, you have to change the proxy address in `gulpfile.js`
+* You need to update and import `sample/batik-db.sql` on your database
+* You need to put your server ids in `sample/wp-config.php` then move it into `build/wordpress/`
+
+## Getting started
+* `npm install`
+* `npm run install:wordpress`
+
+## Running / Development
+* `npm run dev`
+
+## Build
+* `npm run prod`
+
+## Deploy
+* Copy the builded files on the server throught FTP
+* After deployment, do no forget to clear the cache that the hummingbird plugin made if you want to see the changes.
+
